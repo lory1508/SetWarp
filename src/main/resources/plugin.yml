@@ -1,0 +1,13 @@
+main: net.staticcraft.setwarp.SetWarp
+name: SetWarp
+version: '1.0'
+description: Allows you to set some warps for yourself
+commands:
+  setwarp:
+    description: Set a warp
+  delwarp:
+    description: Delete a warp
+  warp:
+    description: Go to a warp
+  listwarps:
+    description: Lists all your current warps
