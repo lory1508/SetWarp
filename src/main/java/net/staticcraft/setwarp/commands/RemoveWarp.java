@@ -24,7 +24,7 @@ public class RemoveWarp implements CommandExecutor {
         Player player = (Player) sender;
 
         if (cmd.getName().equals("delwarp")) {
-            if (!player.hasPermission("net.staticcraft.delwarp")) {
+            if (!player.hasPermission("setwarp.delwarp")) {
                 player.sendMessage(FormattedStrings.getErrorPrefix() + FormattedStrings.PERMISSION_ERROR());
                 return false;
             } else {

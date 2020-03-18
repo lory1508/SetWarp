@@ -26,7 +26,7 @@ public class WarpCommand implements CommandExecutor {
         Player player = (Player) sender;
 
         if (cmd.getName().equals("warp")) {
-            if (!player.hasPermission("pwarp.warp")) {
+            if (!player.hasPermission("setwarp.warp")) {
                 player.sendMessage(FormattedStrings.getErrorPrefix() + FormattedStrings.PERMISSION_ERROR());
                 return false;
             } else {

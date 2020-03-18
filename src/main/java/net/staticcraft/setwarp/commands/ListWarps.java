@@ -24,7 +24,7 @@ public class ListWarps implements CommandExecutor {
         Player player = (Player) sender;
 
         if (cmd.getName().equals("listwarps")) {
-            if (!player.hasPermission("net.staticcraft.listwarps")) {
+            if (!player.hasPermission("setwarp.listwarps")) {
                 player.sendMessage(FormattedStrings.getErrorPrefix() + FormattedStrings.PERMISSION_ERROR());
                 return false;
             } else {
