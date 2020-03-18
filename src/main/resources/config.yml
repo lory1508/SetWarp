@@ -1,0 +1,9 @@
+MAX_ALLOWED_WARPS: 5
+CHAT_SUCCESS_PREFIX: "&2[&a*&2]"
+CHAT_ERROR_PREFIX: "&4[&c*&4]"
+PERMISSION_ERROR: "&cSorry, but you need permission to perform this command!"
+MISSING_WARP: "&cThat warp does not exist!\n Use &7/listwarps &cto see your available warps."
+SET_WARP_MESSAGE: "&aYou now have a new warp named &6$WARP_NAME$&a"
+DELETE_WARP_MESSAGE: "&aYou have deleted the warp &6$WARP_NAME$ &asuccessfully!"
+WARP_LIMIT_MESSAGE: "&cYou may only set up to $WARP_LIMIT$ warps!\n Try deleting an old warp with /delwarp"
+CREATE_WARP_HELP: "&cYou don't have any warps at the moment. Use &7/setwarp &cto create one."
