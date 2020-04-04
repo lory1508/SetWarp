@@ -15,7 +15,7 @@ public class SetWarpUtils {
 
     private static File dataFolder = SetWarp.getPlugin().getDataFolder();
 
-    public static void setWarp(Player player, String name) {
+    public static void setPWarp(Player player, String name) {
 
         YamlConfiguration data = YamlConfiguration.loadConfiguration(getPlayerWarpsFile(player));
 
@@ -37,13 +37,10 @@ public class SetWarpUtils {
             data.set("data." + name.toLowerCase() + ".Z", player.getLocation().getZ());
             data.set("data." + name.toLowerCase() + ".Yaw", player.getLocation().getYaw());
             data.set("data." + name.toLowerCase() + ".Pitch", player.getLocation().getPitch());
-            player.sendMessage(FormattedStrings.CHAT_SUCCESS_PREFIX() + " " + FormattedStrings.SET_WARP_MESSAGE(name.toLowerCase()));
-            // Old success message (for setting a warp)
-            /*player.sendMessage(FormattedStrings.getSuccessPrefix() + ChatColor.GREEN + "You have successfully set a new warp called: " +
-                    ChatColor.GOLD + name.toLowerCase() + ChatColor.AQUA + "\n You have " + (getRemainingWarps(player) - 1) + " warps remaining.");*/
+            player.sendMessage(FormattedStrings.CHAT_SUCCESS_PREFIX() + FormattedStrings.SET_WARP_MESSAGE(name.toLowerCase()));
         } else {
             // print error to player.
-            player.sendMessage(FormattedStrings.CHAT_ERROR_PREFIX() + " " + FormattedStrings.WARP_LIMIT_MESSAGE(getMaxAllowedWarps()));
+            player.sendMessage(FormattedStrings.CHAT_ERROR_PREFIX() + FormattedStrings.WARP_LIMIT_MESSAGE(getMaxAllowedWarps()));
         }
 
         try {
@@ -54,27 +51,24 @@ public class SetWarpUtils {
 
     }
 
-    public static void removeWarp(Player player, String name) {
+    public static void removePWarp(Player player, String name) {
         YamlConfiguration data = YamlConfiguration.loadConfiguration(getPlayerWarpsFile(player));
 
         if (data.get("data." + name.toLowerCase()) != null) {
             data.set("data." + name.toLowerCase(), null);
-            player.sendMessage(FormattedStrings.CHAT_SUCCESS_PREFIX() + " " + FormattedStrings.DELETE_WARP_MESSAGE(name.toLowerCase()));
-            // Old success message (for removing a warp)
-            /*player.sendMessage(FormattedStrings.getSuccessPrefix() + ChatColor.GREEN + "Warp " + ChatColor.GOLD + name.toLowerCase() + ChatColor.GREEN + " has been deleted successfully!\n" +
-                    ChatColor.AQUA + " You have " + (getRemainingWarps(player) + 1) + " warps remaining.");*/
+            player.sendMessage(FormattedStrings.CHAT_SUCCESS_PREFIX() + FormattedStrings.DELETE_WARP_MESSAGE(name.toLowerCase()));
             try {
                 data.save(getPlayerWarpsFile(player));
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else {
-            player.sendMessage(FormattedStrings.CHAT_ERROR_PREFIX() + " " + FormattedStrings.MISSING_WARP_ERROR(name.toLowerCase()));
+        } else if (data.get("data." + name.toLowerCase()) == null) {
+            player.sendMessage(FormattedStrings.CHAT_ERROR_PREFIX() + FormattedStrings.MISSING_WARP_ERROR());
         }
 
     }
 
-    public static Location getWarp(Player player, String name) {
+    public static Location getPWarp(Player player, String name) {
         YamlConfiguration data = YamlConfiguration.loadConfiguration(getPlayerWarpsFile(player));
 
         if (data.get("data." + name.toLowerCase()) == null) {
@@ -91,7 +85,7 @@ public class SetWarpUtils {
         }
     }
 
-    public static void listWarps(Player player) {
+    public static void listPWarps(Player player) {
 
         YamlConfiguration data = YamlConfiguration.loadConfiguration(getPlayerWarpsFile(player));
 
@@ -110,13 +104,13 @@ public class SetWarpUtils {
             formattedList = formattedList.concat(ChatColor.GOLD + "  - " + ChatColor.GREEN + str + "\n");
         }
 
-        String coolStartLine = ChatColor.GOLD + "*" + ChatColor.YELLOW + " -------- " + ChatColor.GOLD + "Your Warps" + ChatColor.YELLOW + " -------- " + ChatColor.GOLD + "*";
-        String coolEndLine = ChatColor.GOLD + "*" + ChatColor.YELLOW + " --------------------------- " + ChatColor.GOLD + "*";
+        String coolStartLine = ChatColor.GOLD + "*" + ChatColor.YELLOW + " ---- " + ChatColor.GOLD + "*" + ChatColor.YELLOW + ChatColor.BOLD + " Your Warps " + ChatColor.GOLD + "*" + ChatColor.YELLOW + " ---- " + ChatColor.GOLD + "*";
+        String coolEndLine = ChatColor.GOLD + "*" + ChatColor.YELLOW + " ------------------------ " + ChatColor.GOLD + "*";
 
         if (warpsArray.length > 0) {
             player.sendMessage(coolStartLine + "\n" + ChatColor.GREEN + formattedList + "\n" + coolEndLine);
         } else {
-            player.sendMessage(FormattedStrings.CHAT_ERROR_PREFIX() + " " + FormattedStrings.CREATE_WARP_HELP());
+            player.sendMessage(FormattedStrings.CHAT_ERROR_PREFIX() + FormattedStrings.CREATE_WARP_HELP());
         }
     }
 
@@ -139,10 +133,4 @@ public class SetWarpUtils {
 
         return file;
     }
-
-    // Method to return the amount of remaining warps from a player.
-    /*private static int getRemainingWarps(Player player) {
-        YamlConfiguration data = YamlConfiguration.loadConfiguration(getPlayerWarpsFile(player));
-        return getMaxAllowedWarps() - data.getConfigurationSection("data").getKeys(false).size() + 1;
-    }*/
 }

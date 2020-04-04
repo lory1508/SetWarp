@@ -1,9 +1,9 @@
 package net.staticcraft.setwarp;
 
-import net.staticcraft.setwarp.commands.ListWarps;
-import net.staticcraft.setwarp.commands.RemoveWarp;
-import net.staticcraft.setwarp.commands.SetWarpCommand;
-import net.staticcraft.setwarp.commands.WarpCommand;
+import net.staticcraft.setwarp.commands.ListPWarpsCommand;
+import net.staticcraft.setwarp.commands.PWarpCommand;
+import net.staticcraft.setwarp.commands.RemovePWarpCommand;
+import net.staticcraft.setwarp.commands.SetPWarpCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class SetWarp extends JavaPlugin {
@@ -16,10 +16,10 @@ public class SetWarp extends JavaPlugin {
         getConfig().addDefault("MAX_ALLOWED_WARPS", 5);
         getConfig().options().copyDefaults(true);
         saveConfig();
-        getCommand("setwarp").setExecutor(new SetWarpCommand());
-        getCommand("delwarp").setExecutor(new RemoveWarp());
-        getCommand("warp").setExecutor(new WarpCommand());
-        getCommand("listwarps").setExecutor(new ListWarps());
+        getCommand("setpwarp").setExecutor(new SetPWarpCommand());
+        getCommand("delpwarp").setExecutor(new RemovePWarpCommand());
+        getCommand("pwarp").setExecutor(new PWarpCommand());
+        getCommand("listpwarps").setExecutor(new ListPWarpsCommand());
     }
 
     public static SetWarp getPlugin() {

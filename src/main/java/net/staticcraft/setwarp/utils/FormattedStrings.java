@@ -5,14 +5,6 @@ import org.bukkit.ChatColor;
 
 public class FormattedStrings {
 
-    public static String getSuccessPrefix() {
-        return ChatColor.translateAlternateColorCodes('&', "&2[&a*&2] " + ChatColor.RESET);
-    }
-
-    public static String getErrorPrefix() {
-        return ChatColor.translateAlternateColorCodes('&', "&4[&c*&4] " + ChatColor.RESET);
-    }
-
     public static String CHAT_SUCCESS_PREFIX() {
         String oldStr = SetWarp.getPlugin().getConfig().getString("CHAT_SUCCESS_PREFIX");
         return ChatColor.translateAlternateColorCodes('&', oldStr);
@@ -51,10 +43,9 @@ public class FormattedStrings {
         return ChatColor.translateAlternateColorCodes('&', replace);
     }
 
-    public static String MISSING_WARP_ERROR(String warp) {
+    public static String MISSING_WARP_ERROR() {
         String oldStr = SetWarp.getPlugin().getConfig().getString("MISSING_WARP_ERROR");
-        String replace = oldStr.replace("$WARP_LIMIT$", warp);
-        return ChatColor.translateAlternateColorCodes('&', replace);
+        return ChatColor.translateAlternateColorCodes('&', oldStr);
     }
 
     public static String CREATE_WARP_HELP() {

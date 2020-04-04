@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 
 import java.util.logging.Level;
 
-public class ListWarps implements CommandExecutor {
+public class ListPWarpsCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -23,16 +23,16 @@ public class ListWarps implements CommandExecutor {
 
         Player player = (Player) sender;
 
-        if (cmd.getName().equals("listwarps")) {
-            if (!player.hasPermission("setwarp.listwarps")) {
-                player.sendMessage(FormattedStrings.getErrorPrefix() + FormattedStrings.PERMISSION_ERROR());
+        if (cmd.getName().equals("listpwarps")) {
+            if (!player.hasPermission("setwarp.listpwarps")) {
+                player.sendMessage(FormattedStrings.CHAT_ERROR_PREFIX() + FormattedStrings.PERMISSION_ERROR());
                 return false;
             } else {
                 if (args.length > 0) {
-                    player.sendMessage(FormattedStrings.getErrorPrefix() + ChatColor.RED + "Usage: /listwarps");
+                    player.sendMessage(FormattedStrings.CHAT_ERROR_PREFIX() + ChatColor.RED + "Usage: /listpwarps");
                     return false;
                 } else {
-                    SetWarpUtils.listWarps(player);
+                    SetWarpUtils.listPWarps(player);
                 }
             }
         }

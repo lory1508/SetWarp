@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 
 import java.util.logging.Level;
 
-public class RemoveWarp implements CommandExecutor {
+public class SetPWarpCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -23,19 +23,17 @@ public class RemoveWarp implements CommandExecutor {
 
         Player player = (Player) sender;
 
-        if (cmd.getName().equals("delwarp")) {
-            if (!player.hasPermission("setwarp.delwarp")) {
-                player.sendMessage(FormattedStrings.getErrorPrefix() + FormattedStrings.PERMISSION_ERROR());
+        if (cmd.getName().equals("setpwarp")) {
+            if (!player.hasPermission("setwarp.setpwarp")) {
+                player.sendMessage(FormattedStrings.CHAT_ERROR_PREFIX() + FormattedStrings.PERMISSION_ERROR());
                 return false;
             } else {
-
                 if (args.length == 0) {
-                    player.sendMessage(FormattedStrings.getErrorPrefix() + ChatColor.RED + "Usage: /delwarp <name>");
+                    player.sendMessage(FormattedStrings.CHAT_ERROR_PREFIX() + ChatColor.RED + "Usage: /setpwarp <name>");
                     return false;
                 }
-
                 if (args.length == 1) {
-                    SetWarpUtils.removeWarp(player, args[0]);
+                    SetWarpUtils.setPWarp(player, args[0]);
                     return false;
                 }
             }
