@@ -53,4 +53,9 @@ public class FormattedStrings {
         return ChatColor.translateAlternateColorCodes('&', oldStr);
     }
 
+    public static String NO_WARPS_ERROR() {
+        String oldStr = SetWarp.getPlugin().getConfig().getString("NO_WARPS_ERROR");
+        return ChatColor.translateAlternateColorCodes('&', oldStr);
+    }
+
 }

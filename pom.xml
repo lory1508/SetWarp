@@ -6,7 +6,7 @@
 
     <groupId>net.staticcraft</groupId>
     <artifactId>SetWarp</artifactId>
-    <version>1.0</version>
+    <version>1.3</version>
 
     <repositories>
         <!-- This adds the Spigot Maven repository to the build -->

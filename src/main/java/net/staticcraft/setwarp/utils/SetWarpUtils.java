@@ -89,29 +89,35 @@ public class SetWarpUtils {
 
         YamlConfiguration data = YamlConfiguration.loadConfiguration(getPlayerWarpsFile(player));
 
-        Set<String> warps = data.getConfigurationSection("data").getKeys(false);
-        warps.remove("account");
+        if (data.getConfigurationSection("data") != null) {
+            Set<String> warps = data.getConfigurationSection("data").getKeys(false);
+            warps.remove("account");
 
-        String[] warpsArray = warps.toArray(new String[warps.size()]);
+            String[] warpsArray = warps.toArray(new String[warps.size()]);
 
-        int index = 0;
-        for (String str : warps) {
-            warpsArray[index++] = str;
-        }
+            int index = 0;
+            for (String str : warps) {
+                warpsArray[index++] = str;
+            }
 
-        String formattedList = "";
-        for (String str : warpsArray) {
-            formattedList = formattedList.concat(ChatColor.GOLD + "  - " + ChatColor.GREEN + str + "\n");
-        }
+            String formattedList = "";
+            for (String str : warpsArray) {
+                formattedList = formattedList.concat(ChatColor.GOLD + "  - " + ChatColor.GREEN + str + "\n");
+            }
 
-        String coolStartLine = ChatColor.GOLD + "*" + ChatColor.YELLOW + " ---- " + ChatColor.GOLD + "*" + ChatColor.YELLOW + ChatColor.BOLD + " Your Warps " + ChatColor.GOLD + "*" + ChatColor.YELLOW + " ---- " + ChatColor.GOLD + "*";
-        String coolEndLine = ChatColor.GOLD + "*" + ChatColor.YELLOW + " ------------------------ " + ChatColor.GOLD + "*";
+            String coolStartLine = ChatColor.GOLD + "*" + ChatColor.YELLOW + " ---- " + ChatColor.GOLD + "*" + ChatColor.YELLOW + ChatColor.BOLD + " Your Warps " + ChatColor.GOLD + "*" + ChatColor.YELLOW + " ---- " + ChatColor.GOLD + "*";
+            String coolEndLine = ChatColor.GOLD + "*" + ChatColor.YELLOW + " ------------------------ " + ChatColor.GOLD + "*";
 
-        if (warpsArray.length > 0) {
-            player.sendMessage(coolStartLine + "\n" + ChatColor.GREEN + formattedList + "\n" + coolEndLine);
+            if (warpsArray.length > 0) {
+                player.sendMessage(coolStartLine + "\n" + ChatColor.GREEN + formattedList + "\n" + coolEndLine);
+            } else {
+                player.sendMessage(FormattedStrings.CHAT_ERROR_PREFIX() + FormattedStrings.CREATE_WARP_HELP());
+            }
         } else {
-            player.sendMessage(FormattedStrings.CHAT_ERROR_PREFIX() + FormattedStrings.CREATE_WARP_HELP());
+            player.sendMessage(FormattedStrings.CHAT_ERROR_PREFIX() + FormattedStrings.NO_WARPS_ERROR());
         }
+
+
     }
 
     public static int getMaxAllowedWarps() {
