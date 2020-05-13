@@ -30,7 +30,7 @@ public class SetWarpUtils {
 
         int size = data.getConfigurationSection("data").getKeys(false).size() - 1;
 
-        if (size < getMaxAllowedWarps()) {
+        if (size < getMaxAllowedWarps(player)) {
             data.set("data." + name.toLowerCase() + ".World", player.getLocation().getWorld().getName());
             data.set("data." + name.toLowerCase() + ".X", player.getLocation().getX());
             data.set("data." + name.toLowerCase() + ".Y", player.getLocation().getY());
@@ -40,7 +40,7 @@ public class SetWarpUtils {
             player.sendMessage(FormattedStrings.CHAT_SUCCESS_PREFIX() + FormattedStrings.SET_WARP_MESSAGE(name.toLowerCase()));
         } else {
             // print error to player.
-            player.sendMessage(FormattedStrings.CHAT_ERROR_PREFIX() + FormattedStrings.WARP_LIMIT_MESSAGE(getMaxAllowedWarps()));
+            player.sendMessage(FormattedStrings.CHAT_ERROR_PREFIX() + FormattedStrings.WARP_LIMIT_MESSAGE(getMaxAllowedWarps(player)));
         }
 
         try {
@@ -120,7 +120,10 @@ public class SetWarpUtils {
 
     }
 
-    public static int getMaxAllowedWarps() {
+    public static int getMaxAllowedWarps(Player player) {
+        if(player.isOp()){
+            return 1024;
+        }
         return SetWarp.getPlugin().getConfig().getInt("MAX_ALLOWED_WARPS");
     }
 
