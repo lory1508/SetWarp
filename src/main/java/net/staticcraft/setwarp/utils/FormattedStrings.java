@@ -57,5 +57,20 @@ public class FormattedStrings {
         String oldStr = SetWarp.getPlugin().getConfig().getString("NO_WARPS_ERROR");
         return ChatColor.translateAlternateColorCodes('&', oldStr);
     }
+    
+    public static String EXISTING_WARP_WARNING(String warp) {
+        String oldStr = SetWarp.getPlugin().getConfig().getString("EXISTING_WARP_WARNING");
+        String replace = oldStr.replace("$WARP_NAME$", warp);
+        return ChatColor.translateAlternateColorCodes('&', replace);
+    }
 
+    public static String TIME_OUT_CHANGE_WARP() {
+        String oldStr = SetWarp.getPlugin().getConfig().getString("TIME_OUT_CHANGE_WARP");
+        return ChatColor.translateAlternateColorCodes('&', oldStr);
+    }
+    
+    public static String RESERVED_WARP_NAME() {
+        String oldStr = SetWarp.getPlugin().getConfig().getString("RESERVED_WARP_NAME");
+        return ChatColor.translateAlternateColorCodes('&', oldStr);
+    }
 }

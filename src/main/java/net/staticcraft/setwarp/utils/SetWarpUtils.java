@@ -9,15 +9,18 @@ import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
 public class SetWarpUtils {
 
     private static File dataFolder = SetWarp.getPlugin().getDataFolder();
+    private static String prevWarpName;
 
-    public static void setPWarp(Player player, String name) {
+    public static void setPWarp(Player player, String warpName, HashMap hmap) {
 
         YamlConfiguration data = YamlConfiguration.loadConfiguration(getPlayerWarpsFile(player));
 
@@ -29,23 +32,52 @@ public class SetWarpUtils {
                 e.printStackTrace();
             }
         }
+        
+        List<String> playerWarps = listPWarpsUtil(player);
+        if(playerWarps.contains(warpName)){
+            player.sendMessage(FormattedStrings.CHAT_ERROR_PREFIX() + FormattedStrings.EXISTING_WARP_WARNING(warpName));
+            prevWarpName = warpName;
+            return;
+        }
+        if(warpName.equalsIgnoreCase("confirm")){
+            Timestamp ts_setpwarp = (Timestamp) hmap.get(player);
+            Timestamp ts_now = new Timestamp(System.currentTimeMillis());
+            long diffTime = ts_now.getTime()- ts_setpwarp.getTime();
+            if(diffTime > 30000){
+                hmap.remove(player);
+                player.sendMessage(FormattedStrings.CHAT_ERROR_PREFIX() + FormattedStrings.TIME_OUT_CHANGE_WARP());
+                return;
+            }
+            warpName = prevWarpName;
+            prevWarpName = "confirm";
+        }
+
+        if(warpName.equalsIgnoreCase("confirm") && prevWarpName.equalsIgnoreCase("confirm")){
+            player.sendMessage(FormattedStrings.CHAT_ERROR_PREFIX() + FormattedStrings.RESERVED_WARP_NAME());
+            return;
+        }
 
         int size = data.getConfigurationSection("data").getKeys(false).size() - 1;
 
         if (size < getMaxAllowedWarps()) {
-            data.set("data." + name.toLowerCase() + ".World", player.getLocation().getWorld().getName());
-            data.set("data." + name.toLowerCase() + ".X", player.getLocation().getX());
-            data.set("data." + name.toLowerCase() + ".Y", player.getLocation().getY());
-            data.set("data." + name.toLowerCase() + ".Z", player.getLocation().getZ());
-            data.set("data." + name.toLowerCase() + ".Yaw", player.getLocation().getYaw());
-            data.set("data." + name.toLowerCase() + ".Pitch", player.getLocation().getPitch());
-            player.sendMessage(FormattedStrings.CHAT_SUCCESS_PREFIX() + FormattedStrings.SET_WARP_MESSAGE(name.toLowerCase()));
+            try{
+                data.set("data." + warpName.toLowerCase() + ".World", player.getLocation().getWorld().getName());
+                data.set("data." + warpName.toLowerCase() + ".X", player.getLocation().getX());
+                data.set("data." + warpName.toLowerCase() + ".Y", player.getLocation().getY());
+                data.set("data." + warpName.toLowerCase() + ".Z", player.getLocation().getZ());
+                data.set("data." + warpName.toLowerCase() + ".Yaw", player.getLocation().getYaw());
+                data.set("data." + warpName.toLowerCase() + ".Pitch", player.getLocation().getPitch());
+                player.sendMessage(FormattedStrings.CHAT_SUCCESS_PREFIX() + FormattedStrings.SET_WARP_MESSAGE(warpName.toLowerCase()));
+            } catch(NullPointerException e){
+                player.sendMessage(FormattedStrings.CHAT_ERROR_PREFIX() + FormattedStrings.RESERVED_WARP_NAME());
+            }
         } else {
             // print error to player.
             player.sendMessage(FormattedStrings.CHAT_ERROR_PREFIX() + FormattedStrings.WARP_LIMIT_MESSAGE(getMaxAllowedWarps()));
         }
 
         try {
+            hmap.remove(player);
             data.save(getPlayerWarpsFile(player));
         } catch (IOException e) {
             e.printStackTrace();
@@ -87,7 +119,7 @@ public class SetWarpUtils {
         }
     }
 
-    public static List<String> listWarpsAutocomplete(Player player) {
+    public static List<String> listPWarpsUtil(Player player) {
 
         YamlConfiguration data = YamlConfiguration.loadConfiguration(getPlayerWarpsFile(player));
 

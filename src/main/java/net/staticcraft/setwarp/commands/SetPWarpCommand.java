@@ -1,5 +1,7 @@
 package net.staticcraft.setwarp.commands;
 
+import java.sql.Timestamp;
+import java.util.HashMap;
 import net.staticcraft.setwarp.SetWarp;
 import net.staticcraft.setwarp.utils.FormattedStrings;
 import net.staticcraft.setwarp.utils.SetWarpUtils;
@@ -12,6 +14,8 @@ import org.bukkit.entity.Player;
 import java.util.logging.Level;
 
 public class SetPWarpCommand implements CommandExecutor {
+    
+    private HashMap<Player, Timestamp> hmap = new HashMap<>();
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -33,7 +37,11 @@ public class SetPWarpCommand implements CommandExecutor {
                     return false;
                 }
                 if (args.length == 1) {
-                    SetWarpUtils.setPWarp(player, args[0]);
+                    Timestamp ts = new Timestamp(System.currentTimeMillis());
+                    if(!hmap.containsKey(player)){
+                        hmap.put(player, ts);
+                    }
+                    SetWarpUtils.setPWarp(player, args[0], hmap);
                     return false;
                 }
             }

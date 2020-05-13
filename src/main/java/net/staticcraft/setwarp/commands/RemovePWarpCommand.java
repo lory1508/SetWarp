@@ -30,7 +30,7 @@ public class RemovePWarpCommand implements CommandExecutor, TabCompleter {
                 player.sendMessage(FormattedStrings.CHAT_ERROR_PREFIX() + FormattedStrings.PERMISSION_ERROR());
                 return null;
             } else {
-                List<String> warpsList = SetWarpUtils.listWarpsAutocomplete((Player) player);
+                List<String> warpsList = SetWarpUtils.listPWarpsUtil((Player) player);
                 return warpsList;
             }
         }

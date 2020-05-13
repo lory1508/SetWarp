@@ -9,3 +9,6 @@ WARP_LIMIT_MESSAGE: "&cYou may only set up to $WARP_LIMIT$ warps!\n Try deleting
 MISSING_WARP_ERROR: "&cError! That warp cannot be deleted because it does not exist! You may have already deleted it."
 CREATE_WARP_HELP: "&cYou don't have any warps at the moment. Use &7/setpwarp &cto create one."
 NO_WARPS_ERROR: "&cError! It appears you do not have any warps set.\n Use &e/setpwarp &cto make one."
+EXISTING_WARP_WARNING: "&cThe warp &6$WARP_NAME$ already exists, do you want to overwrite it? Use &7/setpwarp confirm &cto confirm"
+TIME_OUT_CHANGE_WARP:  "&cError! You haven't tried to set any warps in the past 30 seconds. Use &7/setpwarp &cto create one."
+RESERVED_WARP_NAME:  "&cError! You can't use 'confirm' as a warp name."
