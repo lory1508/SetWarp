@@ -9,6 +9,8 @@ import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class SetWarpUtils {
@@ -30,7 +32,7 @@ public class SetWarpUtils {
 
         int size = data.getConfigurationSection("data").getKeys(false).size() - 1;
 
-        if (size < getMaxAllowedWarps()) {
+        if (size < getMaxAllowedWarps(player)) {
             data.set("data." + name.toLowerCase() + ".World", player.getLocation().getWorld().getName());
             data.set("data." + name.toLowerCase() + ".X", player.getLocation().getX());
             data.set("data." + name.toLowerCase() + ".Y", player.getLocation().getY());
@@ -40,7 +42,7 @@ public class SetWarpUtils {
             player.sendMessage(FormattedStrings.CHAT_SUCCESS_PREFIX() + FormattedStrings.SET_WARP_MESSAGE(name.toLowerCase()));
         } else {
             // print error to player.
-            player.sendMessage(FormattedStrings.CHAT_ERROR_PREFIX() + FormattedStrings.WARP_LIMIT_MESSAGE(getMaxAllowedWarps()));
+            player.sendMessage(FormattedStrings.CHAT_ERROR_PREFIX() + FormattedStrings.WARP_LIMIT_MESSAGE(getMaxAllowedWarps(player)));
         }
 
         try {
@@ -85,6 +87,26 @@ public class SetWarpUtils {
         }
     }
 
+    public static List<String> listWarpsAutocomplete(Player player) {
+
+        YamlConfiguration data = YamlConfiguration.loadConfiguration(getPlayerWarpsFile(player));
+
+        if (data.getConfigurationSection("data") != null) {
+            Set<String> warps = data.getConfigurationSection("data").getKeys(false);
+            warps.remove("account");
+            
+            List<String> warpsList = new ArrayList<>(warps);
+            if (!warpsList.isEmpty()) {
+                return warpsList;
+            } else {
+                player.sendMessage(FormattedStrings.CHAT_ERROR_PREFIX() + FormattedStrings.CREATE_WARP_HELP());
+            }
+        } else {
+            player.sendMessage(FormattedStrings.CHAT_ERROR_PREFIX() + FormattedStrings.NO_WARPS_ERROR());
+        }
+        return null;
+    }
+    
     public static void listPWarps(Player player) {
 
         YamlConfiguration data = YamlConfiguration.loadConfiguration(getPlayerWarpsFile(player));
@@ -120,7 +142,10 @@ public class SetWarpUtils {
 
     }
 
-    public static int getMaxAllowedWarps() {
+    public static int getMaxAllowedWarps(Player player) {
+        if(player.isOp()){
+            return 1024;
+        }
         return SetWarp.getPlugin().getConfig().getInt("MAX_ALLOWED_WARPS");
     }
 
